@@ -49,6 +49,7 @@ static const NSString *kDefaultHostString    = @"www.apple.com";
 
 - (instancetype)init {
     if (self = [super init]) {
+        _interval = kDefaultInterval;
         [self setup];
     }
     return self;
@@ -136,54 +137,7 @@ static const NSString *kDefaultHostString    = @"www.apple.com";
     }
 }
 
-/**
- 接受Ping
- */
-- (void)receivePing {
-    struct sockaddr_storage addr;
-    socklen_t               addrLen;
-    ssize_t                 bytesRead;
-    void *                  buffer;
-    buffer = malloc(kBufferSize);
-    addrLen = sizeof(addr);
-    
-    bytesRead = recvfrom(self.socket, buffer, kBufferSize, 0, (struct sockaddr *)&addr, &addrLen);
-    //error
-    if (bytesRead < 0) {
-        NSError *error = [NSError errorWithDomain:@"Receive pong fail" code:HimePingErrorReceive userInfo:nil];
-        [self.delegate pingDidError:error];
-        free(buffer);
-        return;
-    }
-    
-    //解析IP
-    char hoststr[INET6_ADDRSTRLEN];
-    struct sockaddr_in *sin = (struct sockaddr_in *)&addr;
-    inet_ntop(sin->sin_family, &(sin->sin_addr), hoststr, INET6_ADDRSTRLEN);
-    NSString *host = [[NSString alloc] initWithUTF8String:hoststr];
-    NSLog(@"%@", host);
-    
-    //不是ping的地址
-    if (![host isEqualToString:self.hostAddressString]) {
-        free(buffer);
-        return;
-    }
-    //不是响应ping
-    NSMutableData *packet = [NSMutableData dataWithBytes:buffer length:(NSUInteger)bytesRead];
-    const struct ICMPHeader *result = (const struct ICMPHeader *)((const uint8_t *)packet.bytes + sizeof(IPHeader));
-    if (result->type != 0) {
-        free(buffer);
-        return;
-    }
-    NSNumber *seq = @(result->identifier);
-    if ([self.identifierArray containsObject:seq]) {
-        [self.identifierArray removeObject:seq];
-        [self.delegate pindDidReceive];
-    }
-    free(buffer);
-}
-
-#pragma mark - getter & setter
+#pragma mark - getter
 
 - (NSTimeInterval)timeout {
     if (!_timeout) {
@@ -193,15 +147,7 @@ static const NSString *kDefaultHostString    = @"www.apple.com";
     }
 }
 
-- (NSTimeInterval)interval {
-    if (!_interval) {
-        return kDefaultInterval;
-    } else {
-        return _interval;
-    }
-}
-
-#pragma mark -
+#pragma mark - private method
 
 /**
  获取并设置IP地址
@@ -258,6 +204,53 @@ static const NSString *kDefaultHostString    = @"www.apple.com";
     
     self.sequence += 1;
     return packet;
+}
+
+/**
+ 接受Ping
+ */
+- (void)receivePing {
+    struct sockaddr_storage addr;
+    socklen_t               addrLen;
+    ssize_t                 bytesRead;
+    void *                  buffer;
+    buffer = malloc(kBufferSize);
+    addrLen = sizeof(addr);
+    
+    bytesRead = recvfrom(self.socket, buffer, kBufferSize, 0, (struct sockaddr *)&addr, &addrLen);
+    //error
+    if (bytesRead < 0) {
+        NSError *error = [NSError errorWithDomain:@"Receive pong fail" code:HimePingErrorReceive userInfo:nil];
+        [self.delegate pingDidError:error];
+        free(buffer);
+        return;
+    }
+    
+    //解析IP
+    char hoststr[INET6_ADDRSTRLEN];
+    struct sockaddr_in *sin = (struct sockaddr_in *)&addr;
+    inet_ntop(sin->sin_family, &(sin->sin_addr), hoststr, INET6_ADDRSTRLEN);
+    NSString *host = [[NSString alloc] initWithUTF8String:hoststr];
+    NSLog(@"%@", host);
+    
+    //不是ping的地址
+    if (![host isEqualToString:self.hostAddressString]) {
+        free(buffer);
+        return;
+    }
+    //不是响应ping
+    NSMutableData *packet = [NSMutableData dataWithBytes:buffer length:(NSUInteger)bytesRead];
+    const struct ICMPHeader *result = (const struct ICMPHeader *)((const uint8_t *)packet.bytes + sizeof(IPHeader));
+    if (result->type != 0) {
+        free(buffer);
+        return;
+    }
+    NSNumber *seq = @(result->identifier);
+    if ([self.identifierArray containsObject:seq]) {
+        [self.identifierArray removeObject:seq];
+        [self.delegate pindDidReceive];
+    }
+    free(buffer);
 }
 
 /**

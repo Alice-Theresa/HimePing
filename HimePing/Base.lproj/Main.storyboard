@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.19" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Iyj-I0-pMf">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.16"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="4b6-a1-CpG">
+            <objects>
+                <navigationController id="Iyj-I0-pMf" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7t6-iL-OUj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="3bA-vf-HaN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qqN-bu-CcO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-665" y="116"/>
+        </scene>
+        <!--Hime Ping-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
@@ -21,25 +37,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKU-5o-LyD">
-                                <rect key="frame" x="164" y="318" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKU-5o-LyD">
+                                <rect key="frame" x="171.5" y="318" width="31" height="30"/>
                                 <state key="normal" title="stop"/>
                                 <connections>
                                     <action selector="stopPing:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OlD-Jo-Xgw"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opX-ey-3A5">
-                                <rect key="frame" x="164" y="402" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opX-ey-3A5">
+                                <rect key="frame" x="168.5" y="398" width="37" height="30"/>
                                 <state key="normal" title="clean"/>
                                 <connections>
                                     <action selector="clean:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Knh-gb-Xog"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Fc-px-9D9">
-                                <rect key="frame" x="164" y="230" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Fc-px-9D9">
+                                <rect key="frame" x="171" y="238" width="32" height="30"/>
                                 <state key="normal" title="start"/>
                                 <connections>
                                     <action selector="start:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vAd-Bw-FdA"/>
@@ -47,10 +60,20 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="7Fc-px-9D9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8Ml-Ay-YRH"/>
+                            <constraint firstItem="NKU-5o-LyD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KIC-lj-Xsm"/>
+                            <constraint firstItem="opX-ey-3A5" firstAttribute="top" secondItem="NKU-5o-LyD" secondAttribute="bottom" constant="50" id="mzR-dU-OSO"/>
+                            <constraint firstItem="NKU-5o-LyD" firstAttribute="top" secondItem="7Fc-px-9D9" secondAttribute="bottom" constant="50" id="nca-Es-4zG"/>
+                            <constraint firstItem="opX-ey-3A5" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ns7-Kt-rKN"/>
+                            <constraint firstItem="NKU-5o-LyD" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ztH-Pq-Ovc"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Hime Ping" id="Dyv-8W-x3o"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="121" y="116"/>
         </scene>
     </scenes>
 </document>
